@@ -10,8 +10,8 @@ is_right_holding = True
 
 
 def main():
-    keyboard.add_hotkey("pause", toggle_left_click)
-    keyboard.add_hotkey("scroll lock", toggle_right_hold)
+    keyboard.add_hotkey("left", toggle_left_click)
+    keyboard.add_hotkey("right", toggle_right_hold)
     toggle_left_click()
     toggle_right_hold()
 
