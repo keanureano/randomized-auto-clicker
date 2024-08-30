@@ -51,14 +51,6 @@ def main():
             mouse_down_duration = generate_gaussian_random(0.085, 0.135, std_factor=3)
             mouse_up_duration = generate_gaussian_random(1.4, 1.6, std_factor=3)
             send_click_to_window(mouse_down_duration, mouse_up_duration)
-
-        if is_right_holding:
-            # Ensure the right mouse button is being held down
-            win32api.PostMessage(hwnd, win32con.WM_RBUTTONDOWN, win32con.MK_RBUTTON, 0)
-        else:
-            # Ensure the right mouse button is released
-            win32api.PostMessage(hwnd, win32con.WM_RBUTTONUP, None, 0)
-
         time.sleep(0.1)  # Adjust this sleep duration if needed
 
 
@@ -108,10 +100,12 @@ def toggle_right_hold():
     if is_right_holding:
         is_right_holding = False
         print("Right mouse button holding disabled.")
+        win32api.PostMessage(hwnd, win32con.WM_RBUTTONUP, None, 0)
         winsound.Beep(300, 100)
     else:
         is_right_holding = True
         print("Right mouse button holding enabled.")
+        win32api.PostMessage(hwnd, win32con.WM_RBUTTONDOWN, win32con.MK_RBUTTON, 0)
         winsound.Beep(600, 100)
 
 
