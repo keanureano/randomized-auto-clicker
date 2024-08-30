@@ -36,10 +36,10 @@ def main():
         return
 
     # Register hotkeys for toggling actions
-    keyboard.add_hotkey("right ctrl+left", toggle_left_click)
-    keyboard.add_hotkey("right ctrl+right", toggle_right_hold)
+    keyboard.add_hotkey("menu+left", toggle_left_click)
+    keyboard.add_hotkey("menu+right", toggle_right_hold)
     print(
-        "Hotkeys registered: Right Ctrl + Left Arrow to toggle left click, Right Ctrl + Right Arrow to toggle right hold."
+        "Hotkeys registered: Menu + Left Arrow to toggle left click, Menu + Right Arrow to toggle right hold."
     )
 
     # Initial state
@@ -50,9 +50,6 @@ def main():
         if is_left_clicking:
             mouse_down_duration = generate_gaussian_random(0.085, 0.135, std_factor=3)
             mouse_up_duration = generate_gaussian_random(1.4, 1.6, std_factor=3)
-            print(
-                f"Simulating click: Down for {mouse_down_duration:.3f} seconds, Up for {mouse_up_duration:.3f} seconds."
-            )
             send_click_to_window(mouse_down_duration, mouse_up_duration)
 
         if is_right_holding:
@@ -78,12 +75,20 @@ def generate_gaussian_random(
 
 def send_click_to_window(mouse_down_duration: float, mouse_up_duration: float) -> None:
     """
-    Sends a simulated mouse click to the specified window.
+    Sends a simulated mouse click to the specified window and returns the time taken for the click.
     """
+    start_time = time.time()  # Record start time
     win32api.PostMessage(hwnd, win32con.WM_LBUTTONDOWN, win32con.MK_LBUTTON, 0)
     time.sleep(mouse_down_duration)
     win32api.PostMessage(hwnd, win32con.WM_LBUTTONUP, None, 0)
-    time.sleep(mouse_up_duration)
+    time.sleep(mouse_up_duration - mouse_down_duration)
+
+    end_time = time.time()  # Record end time
+    click_duration = end_time - start_time  # Calculate the duration
+
+    print(
+        f"Mouse down: {mouse_down_duration:.3f} seconds, Mouse up: {mouse_up_duration - mouse_down_duration:.3f} seconds, Total: {click_duration:.3f} seconds"
+    )
 
 
 def toggle_left_click():
