@@ -54,8 +54,15 @@ def main():
                 f"Simulating click: Down for {mouse_down_duration:.3f} seconds, Up for {mouse_up_duration:.3f} seconds."
             )
             send_click_to_window(mouse_down_duration, mouse_up_duration)
+
+        if is_right_holding:
+            # Ensure the right mouse button is being held down
+            win32api.PostMessage(hwnd, win32con.WM_RBUTTONDOWN, win32con.MK_RBUTTON, 0)
         else:
-            time.sleep(1)
+            # Ensure the right mouse button is released
+            win32api.PostMessage(hwnd, win32con.WM_RBUTTONUP, None, 0)
+
+        time.sleep(0.1)  # Adjust this sleep duration if needed
 
 
 def generate_gaussian_random(
@@ -94,12 +101,10 @@ def toggle_left_click():
 def toggle_right_hold():
     global is_right_holding
     if is_right_holding:
-        win32api.PostMessage(hwnd, win32con.WM_RBUTTONUP, None, 0)
         is_right_holding = False
         print("Right mouse button holding disabled.")
         winsound.Beep(300, 100)
     else:
-        win32api.PostMessage(hwnd, win32con.WM_RBUTTONDOWN, win32con.MK_RBUTTON, 0)
         is_right_holding = True
         print("Right mouse button holding enabled.")
         winsound.Beep(600, 100)
