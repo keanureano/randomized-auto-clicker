@@ -36,10 +36,10 @@ def main():
         return
 
     # Register hotkeys for toggling actions
-    keyboard.add_hotkey("menu+left", toggle_left_click)
-    keyboard.add_hotkey("menu+right", toggle_right_hold)
+    keyboard.add_hotkey("end+left", toggle_left_click)
+    keyboard.add_hotkey("end+right", toggle_right_hold)
     print(
-        "Hotkeys registered: Menu + Left Arrow to toggle left click, Menu + Right Arrow to toggle right hold."
+        "Hotkeys registered: End + Left Arrow to toggle left click, End + Right Arrow to toggle right hold."
     )
 
     # Initial state
