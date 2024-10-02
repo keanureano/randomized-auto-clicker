@@ -25,7 +25,6 @@ def find_window(title):
 
 # Global variables to manage the clicking and holding states
 is_left_clicking = True
-is_right_holding = True
 window_title = "Minecraft*"  # Title pattern to match
 hwnd = find_window(window_title)
 
@@ -36,15 +35,11 @@ def main():
         return
 
     # Register hotkeys for toggling actions
-    keyboard.add_hotkey("end+left", toggle_left_click)
-    keyboard.add_hotkey("end+right", toggle_right_hold)
-    print(
-        "Hotkeys registered: End + Left Arrow to toggle left click, End + Right Arrow to toggle right hold."
-    )
+    keyboard.add_hotkey("x+left", toggle_left_click)
+    print("Hotkeys registered: X + Left Arrow to toggle left click")
 
     # Initial state
     toggle_left_click()
-    toggle_right_hold()
 
     while True:
         if is_left_clicking:
@@ -92,20 +87,6 @@ def toggle_left_click():
     else:
         is_left_clicking = True
         print("Left mouse button clicking enabled.")
-        winsound.Beep(600, 100)
-
-
-def toggle_right_hold():
-    global is_right_holding
-    if is_right_holding:
-        is_right_holding = False
-        print("Right mouse button holding disabled.")
-        win32api.PostMessage(hwnd, win32con.WM_RBUTTONUP, None, 0)
-        winsound.Beep(300, 100)
-    else:
-        is_right_holding = True
-        print("Right mouse button holding enabled.")
-        win32api.PostMessage(hwnd, win32con.WM_RBUTTONDOWN, win32con.MK_RBUTTON, 0)
         winsound.Beep(600, 100)
 
 
